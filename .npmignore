@@ -26,7 +26,6 @@ lib/bs
 .bsb.lock
 
 node_modules
-*.html
 /test
 /test_dist
 package-lock.json
