@@ -10,7 +10,7 @@ ws->onclose(e => {
     Js.log2("typeof reason", Js.typeof(e->CloseEvent.reason));
     Js.log2("wasClean", e->CloseEvent.wasClean);
 });
-ws->onopen(e => {
+ws->onopen(() => {
     Js.log("open");
 });
 ws->onmessage(e => {

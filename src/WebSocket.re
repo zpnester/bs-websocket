@@ -23,4 +23,6 @@ type t;
 [@bs.set] external onerror: (t, unit => unit) => unit = "onerror";
 
 [@bs.send] external close: (t, ~code: int=?, ~reason: string=?, unit) => unit = "close";
-[@bs.send] external send: (t, [@bs.unwrap] [ `String(string) | `ArrayBuffer(Js.Typed_array.ArrayBuffer.t ) | `Unsafe('a)]) => unit = "send";
+
+/* missing send Blob and ArrayBufferView */
+[@bs.send] external send: (t, [@bs.unwrap] [ `String(string) | `ArrayBuffer(Js.Typed_array.ArrayBuffer.t )]) => unit = "send";
