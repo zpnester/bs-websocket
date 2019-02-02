@@ -15,7 +15,7 @@ module MessageEvent = {
 }
 
 type t;
-[@bs.new] external make: (string, ~protocols: [`String(string) |`Strings(array(string)) ]=?, unit) => t = "WebSocket";
+[@bs.new] external make: (string, ~protocols: [@bs.unwrap] [`String(string) |`Strings(array(string)) ]=?, unit) => t = "WebSocket";
 
 [@bs.set] external onmessage: (t, MessageEvent.t => unit) => unit = "onmessage";
 [@bs.set] external onopen: (t, unit => unit) => unit = "onopen";
