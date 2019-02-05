@@ -9,14 +9,15 @@ let ws =
   );
 ws->onclose(e => {
   Js.log2("code", e->CloseEvent.code);
-  expectToEqual(e->CloseEvent.code->Js.typeof, "number");
+  expectToEqual(e->CloseEvent.code, 3000);
 
   Js.log2("reason", e->CloseEvent.reason);
-  expectToEqual(e->CloseEvent.reason->Js.typeof, "string");
   expectToEqual(e->CloseEvent.reason, "oops");
 
   Js.log2("wasClean", e->CloseEvent.wasClean);
-  expectToEqual(e->CloseEvent.wasClean->Js.typeof, "boolean");
+  expectToEqual(e->CloseEvent.wasClean, true);
+
+  Js.log("OK");
 });
 ws->onopen(() => {
   Js.log("open");
