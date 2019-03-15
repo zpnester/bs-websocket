@@ -8,14 +8,14 @@ let ws =
     (),
   );
 ws->onclose(e => {
-  Js.log2("code", e->CloseEvent.code);
-  expectToEqual(e->CloseEvent.code, 3000);
+  Js.log2("code", e->code);
+  expectToEqual(e->code, 3000);
 
-  Js.log2("reason", e->CloseEvent.reason);
-  expectToEqual(e->CloseEvent.reason, "oops");
+  Js.log2("reason", e->reason);
+  expectToEqual(e->reason, "oops");
 
-  Js.log2("wasClean", e->CloseEvent.wasClean);
-  expectToEqual(e->CloseEvent.wasClean, true);
+  Js.log2("wasClean", e->wasClean);
+  expectToEqual(e->wasClean, true);
 
   Js.log("OK");
 });
@@ -25,10 +25,7 @@ ws->onopen(() => {
 });
 
 ws->onmessage(e => {
-  expectToEqual(
-    e->MessageEvent.data->Js.Json.decodeString->Belt.Option.getExn,
-    "hello",
-  );
+  expectToEqual(e->data->Js.Json.decodeString->Belt.Option.getExn, "hello");
 
   /* send 2 */
   ws->onmessage(e => {
@@ -45,7 +42,7 @@ ws->onmessage(e => {
     ];
 
     decode(
-      e->MessageEvent.data,
+      e->data,
       s => {
         expectToEqual(s, "ABC");
 

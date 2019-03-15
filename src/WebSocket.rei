@@ -9,16 +9,15 @@ type messageEvent;
 [@bs.get] external data: messageEvent => Js.Json.t = "data";
 
 type t;
-[@bs.new]
-external make:
+
+// constructor, avoid external
+let make:
   (
     string,
-    ~protocols: [@bs.unwrap] [ | `String(string) | `Strings(array(string))]
-                  =?,
+    ~protocols: [ | `String(string) | `Strings(array(string))]=?,
     unit
   ) =>
-  t =
-  "WebSocket";
+  t;
 
 [@bs.set] external onmessage: (t, messageEvent => unit) => unit = "onmessage";
 [@bs.set] external onopen: (t, unit => unit) => unit = "onopen";
@@ -28,7 +27,6 @@ external make:
 [@bs.send]
 external close: (t, ~code: int=?, ~reason: string=?, unit) => unit = "close";
 
-/* missing send Blob and ArrayBufferView */
 [@bs.send]
 external send:
   (
