@@ -4,9 +4,11 @@ open Expect_;
 let ws =
   WebSocket.make(
     "ws://demos.kaazing.com/echo",
-    /*~protocols=`Strings([|"json"|]),*/
-    (),
   );
+
+// let ws = WebSocket.makeWithProtocols(
+//   "ws://demos.kaazing.com/echo", [|"proto1", "proto2"|]);
+
 ws->onclose(e => {
   Js.log2("code", e->code);
   expectToEqual(e->code, 3000);
@@ -19,9 +21,13 @@ ws->onclose(e => {
 
   Js.log("OK");
 });
-ws->onopen(() => {
-  Js.log("open");
-  ws->send(`String("he" ++ "llo"));
+ws->onopen(e => {
+  Js.log2("open", e);
+  let data = WebSocket.Data.string("he" ++ "llo");
+  ws->send(data);
+});
+ws->onerror(e => {
+  Js.log2("error", e);
 });
 
 ws->onmessage(e => {
@@ -47,11 +53,12 @@ ws->onmessage(e => {
         expectToEqual(s, "ABC");
 
         /* close after send 2 */
-        ws->close(~code=3000, ~reason="oops", ());
+        ws->closeWithCodeReason(3000, "oops");
       },
     );
   });
 
   let ab = Js.Typed_array.Int8Array.make([|65, 66, 67|]);
-  ws->send(`ArrayBuffer(ab->Js.Typed_array.Int8Array.buffer));
+  let data = ab->Js.Typed_array.Int8Array.buffer->WebSocket.Data.arrayBuffer;
+  ws->send(data);
 });

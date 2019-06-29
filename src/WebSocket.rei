@@ -11,30 +11,23 @@ type messageEvent;
 type t;
 
 // constructor, avoid external
-let make:
-  (
-    string,
-    ~protocols: [ | `String(string) | `Strings(array(string))]=?,
-    unit
-  ) =>
-  t;
+let make: string => t;
+
+let makeWithProtocol: (string, string) => t;
+
+let makeWithProtocols: (string, array(string)) => t;
 
 [@bs.set] external onmessage: (t, messageEvent => unit) => unit = "onmessage";
-[@bs.set] external onopen: (t, unit => unit) => unit = "onopen";
+[@bs.set] external onopen: (t, Dom.event => unit) => unit = "onopen";
 [@bs.set] external onclose: (t, closeEvent => unit) => unit = "onclose";
-[@bs.set] external onerror: (t, unit => unit) => unit = "onerror";
+[@bs.set] external onerror: (t, Dom.event => unit) => unit = "onerror";
 
-[@bs.send]
-external close: (t, ~code: int=?, ~reason: string=?, unit) => unit = "close";
+[@bs.send] external close: t => unit = "close";
 
-[@bs.send]
-external send:
-  (
-    t,
-    [@bs.unwrap] [
-      | `String(string)
-      | `ArrayBuffer(Js.Typed_array.ArrayBuffer.t)
-    ]
-  ) =>
-  unit =
-  "send";
+[@bs.send] external closeWithCode: (t, int) => unit = "close";
+
+[@bs.send] external closeWithCodeReason: (t, int, string) => unit = "close";
+
+[@bs.send] external send: (t, WebSocket_Data.t) => unit = "send";
+
+module Data = WebSocket_Data;
