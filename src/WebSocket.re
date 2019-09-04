@@ -11,10 +11,10 @@ type messageEvent;
 type t;
 [@bs.new] external make: string => t = "WebSocket";
 
-[@bs.new] external makeWithProtocol: (string, string) => t = "WebSocket";
+[@bs.new] external make2: (string, ~protocol: string) => t = "WebSocket";
 
 [@bs.new]
-external makeWithProtocols: (string, array(string)) => t = "WebSocket";
+external make2_: (string, ~protocols: array(string)) => t = "WebSocket";
 
 [@bs.set] external onmessage: (t, messageEvent => unit) => unit = "onmessage";
 [@bs.set] external onopen: (t, Dom.event => unit) => unit = "onopen";
@@ -23,10 +23,8 @@ external makeWithProtocols: (string, array(string)) => t = "WebSocket";
 [@bs.set] external onerror: (t, Dom.event => unit) => unit = "onerror";
 
 [@bs.send] external close: t => unit = "close";
-
-[@bs.send] external closeWithCode: (t, int) => unit = "close";
-
-[@bs.send] external closeWithCodeReason: (t, int, string) => unit = "close";
+[@bs.send] external close1: (t, ~code: int) => unit = "close";
+[@bs.send] external close2: (t, ~code: int, ~reason: string) => unit = "close";
 
 [@bs.send] external send: (t, WebSocket_Data.t) => unit = "send";
 

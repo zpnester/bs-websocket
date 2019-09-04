@@ -28,3 +28,4 @@ lib/bs
 node_modules
 /test_dist
 *.bs.js
+.idea

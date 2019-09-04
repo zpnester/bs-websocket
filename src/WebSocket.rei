@@ -13,9 +13,9 @@ type t;
 // constructor, avoid external
 let make: string => t;
 
-let makeWithProtocol: (string, string) => t;
+let make2: (string, ~protocol: string) => t;
 
-let makeWithProtocols: (string, array(string)) => t;
+let make2_: (string, ~protocols: array(string)) => t;
 
 [@bs.set] external onmessage: (t, messageEvent => unit) => unit = "onmessage";
 [@bs.set] external onopen: (t, Dom.event => unit) => unit = "onopen";
@@ -23,10 +23,8 @@ let makeWithProtocols: (string, array(string)) => t;
 [@bs.set] external onerror: (t, Dom.event => unit) => unit = "onerror";
 
 [@bs.send] external close: t => unit = "close";
-
-[@bs.send] external closeWithCode: (t, int) => unit = "close";
-
-[@bs.send] external closeWithCodeReason: (t, int, string) => unit = "close";
+[@bs.send] external close1: (t, ~code: int) => unit = "close";
+[@bs.send] external close2: (t, ~code: int, ~reason: string) => unit = "close";
 
 [@bs.send] external send: (t, WebSocket_Data.t) => unit = "send";
 

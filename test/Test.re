@@ -6,8 +6,8 @@ let ws =
     "ws://demos.kaazing.com/echo",
   );
 
-// let ws = WebSocket.makeWithProtocols(
-//   "ws://demos.kaazing.com/echo", [|"proto1", "proto2"|]);
+// let ws = WebSocket.make2_(
+//   "ws://demos.kaazing.com/echo", ~protocols=[|"proto1", "proto2"|]);
 
 ws->onclose(e => {
   Js.log2("code", e->code);
@@ -53,7 +53,7 @@ ws->onmessage(e => {
         expectToEqual(s, "ABC");
 
         /* close after send 2 */
-        ws->closeWithCodeReason(3000, "oops");
+        ws->close2(~code=3000, ~reason="oops");
       },
     );
   });
